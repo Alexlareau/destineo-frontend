@@ -18,11 +18,12 @@ export async function getOrCreateInstallationToken(): Promise<string> {
     throw new Error(`Failed to create anonymous profile (${response.status})`);
   }
 
-  const body: { installationToken?: string } = await response.json();
-  if (!body.installationToken) {
-    throw new Error(`Invalid response : installationToken.`);
+  const body: { installation_token?: string } = await response.json();
+
+  if (!body.installation_token) {
+    throw new Error('Réponse invalide : installation_token manquant.');
   }
 
-  await SecureStore.setItemAsync(TOKEN_KEY, body.installationToken);
-  return body.installationToken;
+  await SecureStore.setItemAsync(TOKEN_KEY, body.installation_token);
+  return body.installation_token;
 }
